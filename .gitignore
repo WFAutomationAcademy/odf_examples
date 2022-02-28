@@ -1,0 +1,15 @@
+target/
+hs_err_pid*
+
+.idea/
+*.iml
+out/
+
+.settings
+bin/
+
+Thumbs.db
+*.log
+
+dependency-reduced-pom.xml
+.flattened-pom.xml

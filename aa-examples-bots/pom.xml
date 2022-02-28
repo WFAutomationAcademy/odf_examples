@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.workfusion.examples</groupId>
+		<artifactId>aa-examples</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+    <groupId>com.workfusion.examples</groupId>
+    <artifactId>aa-examples-bots</artifactId>
+    <packaging>pom</packaging>
+
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <usecase.name>aa-examples-bots</usecase.name>
+        <usecase.code>aa_ex</usecase.code>
+        <usecase.version>${project.version}</usecase.version>
+
+        <odf2.version>10.2.3.7</odf2.version>
+        <bundle-versions-maven-plugin.version>0.0.17</bundle-versions-maven-plugin.version>
+        <bundle-maven-plugin.version>10.2.4.3</bundle-maven-plugin.version>
+
+        <rpa.custom.elements.version>1.4</rpa.custom.elements.version>
+
+        <package.repository.id>bcb-repository</package.repository.id>
+        <package.repository.url>http://localhost:18081/nexus/service/local/repositories/releases/content/</package.repository.url>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wf-plugins</id>
+            <url>https://repository.workfusion.com/content/repositories/plugins/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.workfusion.odf2</groupId>
+                <artifactId>odf2-bom</artifactId>
+                <version>${odf2.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <workfusion.server.id>control-tower</workfusion.server.id>
+                <workfusion.environment.url>http://localhost:15280</workfusion.environment.url>
+            </properties>
+        </profile>
+        <profile>
+            <id>remote</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <workfusion.server.id>remote-control-tower</workfusion.server.id>
+                <workfusion.environment.url>https://instance.workfusion.com</workfusion.environment.url>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+  <modules>
+    <module>aa-examples-bots-bcb</module>
+    <module>aa-examples-bots-package</module>
+  </modules>
+</project>

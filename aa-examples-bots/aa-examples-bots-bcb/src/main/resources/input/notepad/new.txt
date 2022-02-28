@@ -1,0 +1,1 @@
+Simplified API has a lot of classes and methods. We suggest you to stop reading, open your WorkFusion Studio and start typing.

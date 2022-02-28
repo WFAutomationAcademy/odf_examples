@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>wfar</id>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory/>
+        </fileSet>
+    </fileSets>
+
+    <dependencySets>
+        <!-- Intake BCB -->
+        <dependencySet>
+            <outputDirectory>artifactory-dependency/bcb/com/workfusion/examples/aa-examples-bots/${project.version}</outputDirectory>
+            <includes>
+                <include>com.workfusion.examples:aa-examples-bots-bcb:jar:${project.version}</include>
+            </includes>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <useStrictFiltering>true</useStrictFiltering>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+    </dependencySets>
+</assembly>
