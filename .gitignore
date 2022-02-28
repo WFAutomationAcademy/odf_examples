@@ -13,3 +13,4 @@ Thumbs.db
 
 dependency-reduced-pom.xml
 .flattened-pom.xml
+.DS_Store
