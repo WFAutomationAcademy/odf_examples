@@ -15,21 +15,30 @@ Project consists of 2 different types of examples: Code examples and full ODF 2 
 
 1. Code examples
 Can be found directly in the following directory: aa-examples/src/main/java/com/workfusion/example
+
 Has 4 examples: Exception handling, Screenshots making, Send email, Write to Excel
 
-Directory | Description | Business process(BP) analogue |
-| :-----: | :--------: | :--------: |
-|configs | directory for scripts| Bot Task
-|datastore | csv files scripts can access| Datastores
-|input | csv files, which are used as input for BP| "Data" tab in BP definition|
-|output | config generated csv | "Data" section in "Result" tab |
+Directory | Description | 
+| :-----: | :--------: | 
+|aa-examples/src/main/java/com/workfusion/example | Directory for code scripts| 
+
+2. Full ODF 2 based examples
+Has multiple examples inside the folder aa-examples/aa-examples-bots:
+
+Directory | Description | 
+| :-----: | :--------: | 
+|aa-examples-bots-bcb/src/main/../aa_examples_bots | Directory for code scripts
+|aa-examples-bots-bcb/src/tests/../aa_examples_bots | Directory for JUnit tests
+|aa-examples-bots-bcb/src/main/resources/input | csv files, which are used as input for BP
+
 
 # Samples
 
-## [configs/webharvest](https://github.com/WFAutomationAcademy/RPA-Samples/tree/master/configs/webharvest) - Samples of webharvest library using
+## 1. Code examples
 
 * [configs/webharvest/bindingAndDefineVariable.xml](https://github.com/WFAutomationAcademy/RPA-Samples/blob/master/configs/webharvest/bindingAndDefineVariable.xml) -
     How to access `java/groovy` variable with web-harvest command.
+* [ExampleExeption] (https://github.com/WFAutomationAcademy/odf_examples/blob/main/src/main/java/com/workfusion/example/ExampleException.java) (- separate piece of code, that can be used in each project for throwing exceptions via messages.    
 * [configs/webharvest/variablesDeclarationAndUsage.xml](https://github.com/WFAutomationAcademy/rpa_samples/blob/master/configs/webharvest/variablesDeclarationAndUsage.xml) - Variables declaration and usage.
 * [configs/webharvest/create-file-s3put.xml](https://github.com/WFAutomationAcademy/RPA-Samples/blob/master/configs/webharvest/create-file-s3put.xml) -
     Creating plain text file and uploading it to S3.
