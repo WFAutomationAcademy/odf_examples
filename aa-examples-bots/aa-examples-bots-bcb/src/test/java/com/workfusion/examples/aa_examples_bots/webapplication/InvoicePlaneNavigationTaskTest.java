@@ -3,9 +3,7 @@ package com.workfusion.examples.aa_examples_bots.webapplication;
 import com.workfusion.examples.aa_examples_bots.webapplication.task.InvoicePlaneNavigationTask;
 import com.workfusion.odf.test.junit.IacDeveloperJUnitConfig;
 import com.workfusion.odf.test.launch.InputData;
-import com.workfusion.odf.test.launch.LaunchSettingsFactory;
-import com.workfusion.odf.test.launch.WorkerAgent;
-import com.workfusion.studio.bot.model.LaunchSettings;
+import com.workfusion.odf2.junit.BotTaskFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,16 +22,12 @@ public class InvoicePlaneNavigationTaskTest {
 
     @Test
     @DisplayName("Should run bot task")
-    void shouldRunRpaBotTask(WorkerAgent agent, LaunchSettingsFactory settingsFactory) {
+    void shouldRunRpaBotTask(BotTaskFactory botTaskFactory) {
 
-
-        LaunchSettings settings = settingsFactory.builder()
-                .secureEntries(cfg -> cfg.withEntry(InvoicePlaneNavigationTask.INVOICE_PLANE_CREDENTIALS_ALIAS,
+        botTaskFactory.fromClass(InvoicePlaneNavigationTask.class)
+                .withSecureEntries(cfg -> cfg.withEntry(InvoicePlaneNavigationTask.INVOICE_PLANE_CREDENTIALS_ALIAS,
                         "wf-robot@mail.com", "BotsRock4ever!"))
-                .inputData(InputData.of(InvoicePlaneNavigationTask.INPUT_COLUMN_NAME, INVOICE_INPUT))
-                .botTask("configs/main/invoice-plane-navigation.xml")
-                .build();
-
-        agent.run(settings);
+                .withInputData(InputData.of(InvoicePlaneNavigationTask.INPUT_COLUMN_NAME, INVOICE_INPUT))
+                .buildAndRun();
     }
 }
