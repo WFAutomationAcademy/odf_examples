@@ -1,11 +1,10 @@
 package com.workfusion.examples.aa_examples_bots.scrapwebtable;
 
 import com.workfusion.examples.aa_examples_bots.AbstractTestWithLogger;
+import com.workfusion.examples.aa_examples_bots.scrapwebtable.task.ScrapTableWithRpaTask;
 import com.workfusion.odf.test.junit.IacDeveloperJUnitConfig;
-import com.workfusion.odf.test.launch.BotTaskResult;
-import com.workfusion.odf.test.launch.LaunchSettingsFactory;
-import com.workfusion.odf.test.launch.WorkerAgent;
-import com.workfusion.studio.bot.model.LaunchSettings;
+import com.workfusion.odf.test.launch.OutputData;
+import com.workfusion.odf2.junit.BotTaskFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +13,10 @@ public class ScrapTableWithRpaTaskTest extends AbstractTestWithLogger {
 
     @Test
     @DisplayName("Should run bot task")
-    void shouldRunRpaBotTask(WorkerAgent agent, LaunchSettingsFactory settingsFactory) {
+    void shouldRunRpaBotTask(BotTaskFactory botTaskFactory) {
 
-        LaunchSettings settings = settingsFactory.builder()
-                .botTask("configs/main/scrap-table-with-rpa.xml")
-                .build();
+        OutputData outputData = botTaskFactory.fromClass(ScrapTableWithRpaTask.class).buildAndRun();
 
-        BotTaskResult actualResult = agent.run(settings);
-
-        logResults(actualResult.getOutputData());
+        logResults(outputData);
     }
 }
