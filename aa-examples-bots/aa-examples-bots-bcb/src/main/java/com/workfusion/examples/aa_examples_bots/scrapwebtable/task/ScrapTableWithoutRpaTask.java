@@ -1,8 +1,12 @@
 package com.workfusion.examples.aa_examples_bots.scrapwebtable.task;
 
-import com.workfusion.examples.aa_examples_bots.common.task.GenericTaskMultipleResults;
 import com.workfusion.examples.aa_examples_bots.common.utils.HttpRequester;
 import com.workfusion.odf2.compiler.BotTask;
+import com.workfusion.odf2.core.task.AdHocTask;
+import com.workfusion.odf2.core.task.TaskInput;
+import com.workfusion.odf2.core.task.output.MultipleResults;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -13,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @BotTask
-public class ScrapTableWithoutRpaTask implements GenericTaskMultipleResults {
+public class ScrapTableWithoutRpaTask implements AdHocTask {
 
     private static final String URL_TO_USE = "http://www.w3schools.com/html/html_tables.asp";
 
@@ -21,7 +25,7 @@ public class ScrapTableWithoutRpaTask implements GenericTaskMultipleResults {
     }
 
     @Override
-    public List<Map<String, String>> run() {
+    public TaskRunnerOutput run(TaskInput taskInput) {
 
         //Get page content by executing of GET request
         HttpRequester httpRequester = new HttpRequester();
@@ -56,6 +60,8 @@ public class ScrapTableWithoutRpaTask implements GenericTaskMultipleResults {
             throw new RuntimeException("An error occurred during parsing page content", e);
         }
 
-        return result;
+        MultipleResults results = new MultipleResults();
+        result.forEach(row -> results.addRow(new SingleResult(row)));
+        return results;
     }
 }

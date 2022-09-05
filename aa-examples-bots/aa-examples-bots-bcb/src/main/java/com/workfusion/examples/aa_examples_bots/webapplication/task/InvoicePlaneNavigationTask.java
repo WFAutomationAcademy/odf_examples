@@ -10,17 +10,22 @@ import com.workfusion.examples.aa_examples_bots.webapplication.automation.pages.
 import com.workfusion.examples.aa_examples_bots.webapplication.automation.pages.invoices.ExtendedInvoiceCreationPage;
 import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
+import com.workfusion.odf2.core.cdi.Requires;
+import com.workfusion.odf2.core.task.TaskInput;
 import com.workfusion.odf2.core.task.generic.GenericTask;
-import com.workfusion.odf2.core.task.rpa.RpaDriver;
-import com.workfusion.odf2.core.task.rpa.RpaFactory;
-import com.workfusion.odf2.core.task.rpa.RpaRunner;
-import com.workfusion.odf2.core.webharvest.TaskInput;
-import com.workfusion.odf2.core.webharvest.service.vault.SecretsVaultService;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
+import com.workfusion.odf2.core.webharvest.rpa.RpaDriver;
+import com.workfusion.odf2.core.webharvest.rpa.RpaFactory;
+import com.workfusion.odf2.core.webharvest.rpa.RpaRunner;
+import com.workfusion.odf2.service.ControlTowerServicesModule;
+import com.workfusion.odf2.service.vault.SecretsVaultService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
 @BotTask(requireRpa = true)
+@Requires(ControlTowerServicesModule.class)
 public class InvoicePlaneNavigationTask implements GenericTask {
 
     private final RpaRunner rpaRunner;
@@ -41,7 +46,7 @@ public class InvoicePlaneNavigationTask implements GenericTask {
     }
 
     @Override
-    public void run() {
+    public TaskRunnerOutput run() {
         rpaRunner.execute(d -> {
             //Create client and go to login page
             InvoicePlaneClient client = new InvoicePlaneClient(this.logger);
@@ -61,5 +66,6 @@ public class InvoicePlaneNavigationTask implements GenericTask {
             extendedInvoiceCreationPage.fillInvoiceDataAndSave(invoiceDto);
             extendedInvoiceCreationPage.topNavigation().logout();
         });
+        return new SingleResult().withColumn("completed", "true");
     }
 }

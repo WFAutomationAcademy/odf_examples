@@ -2,7 +2,7 @@ package com.workfusion.examples.aa_examples_bots.steam.orm;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.workfusion.examples.aa_examples_bots.steam.orm.dto.Game;
-import com.workfusion.odf2.core.orm.repository.OrmLiteRepository;
+import com.workfusion.odf2.core.orm.OrmLiteRepository;
 
 import java.sql.SQLException;
 

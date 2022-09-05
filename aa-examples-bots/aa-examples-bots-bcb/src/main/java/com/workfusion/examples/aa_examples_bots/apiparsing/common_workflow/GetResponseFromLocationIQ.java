@@ -1,8 +1,8 @@
 package com.workfusion.examples.aa_examples_bots.apiparsing.common_workflow;
 
 import com.workfusion.examples.aa_examples_bots.common.utils.HttpRequester;
-import com.workfusion.odf2.core.webharvest.TaskInput;
-import com.workfusion.odf2.core.webharvest.service.vault.SecretsVaultService;
+import com.workfusion.odf2.core.task.TaskInput;
+import com.workfusion.odf2.service.vault.SecretsVaultService;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 

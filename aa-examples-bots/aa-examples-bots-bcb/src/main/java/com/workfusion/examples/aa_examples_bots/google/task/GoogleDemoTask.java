@@ -1,14 +1,17 @@
 package com.workfusion.examples.aa_examples_bots.google.task;
 
-import com.workfusion.examples.aa_examples_bots.common.task.GenericTaskMultipleResults;
 import com.workfusion.examples.aa_examples_bots.google.automation.entities.FoundItemDto;
 import com.workfusion.examples.aa_examples_bots.google.workflow.MakeGoogleSearch;
 import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
-import com.workfusion.odf2.core.task.rpa.RpaDriver;
-import com.workfusion.odf2.core.task.rpa.RpaFactory;
-import com.workfusion.odf2.core.task.rpa.RpaRunner;
-import com.workfusion.odf2.core.webharvest.TaskInput;
+import com.workfusion.odf2.core.task.AdHocTask;
+import com.workfusion.odf2.core.task.TaskInput;
+import com.workfusion.odf2.core.task.output.MultipleResults;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
+import com.workfusion.odf2.core.webharvest.rpa.RpaDriver;
+import com.workfusion.odf2.core.webharvest.rpa.RpaFactory;
+import com.workfusion.odf2.core.webharvest.rpa.RpaRunner;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -18,11 +21,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @BotTask(requireRpa = true)
-public class GoogleDemoTask implements GenericTaskMultipleResults {
+public class GoogleDemoTask implements AdHocTask {
 
     private final RpaRunner rpaRunner;
     private final Logger logger;
-    private final TaskInput taskInput;
 
     public static final String INPUT_COLUMN_NAME = "text_to_search";
 
@@ -31,11 +33,10 @@ public class GoogleDemoTask implements GenericTaskMultipleResults {
         RpaFactory rpaFactory = injector.instance(RpaFactory.class);
         this.rpaRunner = rpaFactory.builder(RpaDriver.UNIVERSAL).closeOnCompletion(true).build();
         this.logger = injector.instance(Logger.class);
-        this.taskInput = injector.instance(TaskInput.class);
     }
 
     @Override
-    public List<Map<String, String>> run() {
+    public TaskRunnerOutput run(TaskInput taskInput) {
         //AtomicReference object is used to have ability to get access and set results list from lambda expression
         AtomicReference<List<Map<String, String>>> taskResults = new AtomicReference<>();
         rpaRunner.execute(d -> {
@@ -45,6 +46,8 @@ public class GoogleDemoTask implements GenericTaskMultipleResults {
             //Prepare results to be returned
             taskResults.set(rawResult.stream().map(FoundItemDto::convertToMap).collect(Collectors.toList()));
         });
-        return taskResults.get();
+        MultipleResults results = new MultipleResults();
+        taskResults.get().forEach(row -> results.addRow(new SingleResult(row)));
+        return results;
     }
 }

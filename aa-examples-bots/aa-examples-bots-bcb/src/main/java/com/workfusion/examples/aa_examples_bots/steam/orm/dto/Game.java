@@ -3,8 +3,8 @@ package com.workfusion.examples.aa_examples_bots.steam.orm.dto;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.workfusion.odf2.core.orm.model.Datastore;
-import com.workfusion.odf2.core.orm.model.DatastoreType;
+import com.workfusion.odf2.core.orm.Datastore;
+import com.workfusion.odf2.core.orm.DatastoreType;
 
 import java.util.UUID;
 

@@ -3,10 +3,13 @@ package com.workfusion.examples.aa_examples_bots.apiparsing.task;
 import com.workfusion.examples.aa_examples_bots.apiparsing.common_workflow.GetResponseFromLocationIQ;
 import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
+import com.workfusion.odf2.core.cdi.Requires;
+import com.workfusion.odf2.core.task.TaskInput;
 import com.workfusion.odf2.core.task.generic.GenericTask;
-import com.workfusion.odf2.core.webharvest.TaskInput;
-import com.workfusion.odf2.core.webharvest.TaskOutput;
-import com.workfusion.odf2.core.webharvest.service.vault.SecretsVaultService;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
+import com.workfusion.odf2.service.ControlTowerServicesModule;
+import com.workfusion.odf2.service.vault.SecretsVaultService;
 import groovy.util.Node;
 import groovy.util.XmlParser;
 import org.xml.sax.SAXException;
@@ -17,21 +20,20 @@ import java.io.IOException;
 import java.util.List;
 
 @BotTask
+@Requires(ControlTowerServicesModule.class)
 public class LocationIQWithGroovyXmlParserTask implements GenericTask {
 
     private final TaskInput taskInput;
-    private final TaskOutput taskOutput;
     private final SecretsVaultService secretsVaultService;
 
     @Inject
     public LocationIQWithGroovyXmlParserTask(Injector injector) {
         this.taskInput = injector.instance(TaskInput.class);
-        this.taskOutput = injector.instance(TaskOutput.class);
         this.secretsVaultService = injector.instance(SecretsVaultService.class);
     }
 
     @Override
-    public void run() {
+    public TaskRunnerOutput run() {
 
         //Get LocationIQ response
         GetResponseFromLocationIQ getResponseFromLocationIQ = new GetResponseFromLocationIQ(this.taskInput,
@@ -64,8 +66,9 @@ public class LocationIQWithGroovyXmlParserTask implements GenericTask {
         String type = (String) firstPlaceFromResponse.attribute("type");
 
         //Set output columns to be exported from the task
-        taskOutput.setColumn("name", displayName);
-        taskOutput.setColumn("place_rank", placeRank);
-        taskOutput.setColumn("type", type);
+        return new SingleResult()
+                .withColumn("name", displayName)
+                .withColumn("place_rank", placeRank)
+                .withColumn("type", type);
     }
 }

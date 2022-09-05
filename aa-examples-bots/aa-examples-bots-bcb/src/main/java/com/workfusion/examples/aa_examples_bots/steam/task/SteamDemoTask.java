@@ -9,9 +9,11 @@ import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
 import com.workfusion.odf2.core.cdi.Requires;
 import com.workfusion.odf2.core.task.generic.GenericTask;
-import com.workfusion.odf2.core.task.rpa.RpaDriver;
-import com.workfusion.odf2.core.task.rpa.RpaFactory;
-import com.workfusion.odf2.core.task.rpa.RpaRunner;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
+import com.workfusion.odf2.core.webharvest.rpa.RpaDriver;
+import com.workfusion.odf2.core.webharvest.rpa.RpaFactory;
+import com.workfusion.odf2.core.webharvest.rpa.RpaRunner;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -33,7 +35,7 @@ public class SteamDemoTask implements GenericTask {
     }
 
     @Override
-    public void run() {
+    public TaskRunnerOutput run() {
         rpaRunner.execute(d -> {
             //Get Game Detailed Info page by executing common (for SteamDemoTask and SteamDemoRobot) scenario
             GameDetailedInfoPage gameDetailedInfoPage = SteamDemoScenario.executeSteamDemoScenario(this.logger);
@@ -49,5 +51,6 @@ public class SteamDemoTask implements GenericTask {
             //Save data to datastore
             gameRepository.create(game);
         });
+        return new SingleResult().withColumn("completed", "true");
     }
 }

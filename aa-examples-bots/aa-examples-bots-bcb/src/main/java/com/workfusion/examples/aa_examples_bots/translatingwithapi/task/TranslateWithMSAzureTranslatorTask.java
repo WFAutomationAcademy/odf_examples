@@ -10,8 +10,10 @@ import com.workfusion.examples.aa_examples_bots.translatingwithapi.dto.response.
 import com.workfusion.examples.aa_examples_bots.translatingwithapi.dto.response.translate.TranslateResponseItem;
 import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
-import com.workfusion.odf2.core.webharvest.TaskInput;
-import com.workfusion.odf2.core.webharvest.service.vault.SecretsVaultService;
+import com.workfusion.odf2.core.cdi.Requires;
+import com.workfusion.odf2.core.task.TaskInput;
+import com.workfusion.odf2.service.ControlTowerServicesModule;
+import com.workfusion.odf2.service.vault.SecretsVaultService;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @BotTask
+@Requires(ControlTowerServicesModule.class)
 public class TranslateWithMSAzureTranslatorTask implements GenericTaskMultipleResults {
 
     //This Secrets Vault record should contain Azure Translator Service region as key

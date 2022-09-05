@@ -5,10 +5,13 @@ import com.workfusion.examples.aa_examples_bots.apiparsing.entity.Place;
 import com.workfusion.examples.aa_examples_bots.apiparsing.entity.SearchResults;
 import com.workfusion.odf2.compiler.BotTask;
 import com.workfusion.odf2.core.cdi.Injector;
+import com.workfusion.odf2.core.cdi.Requires;
+import com.workfusion.odf2.core.task.TaskInput;
 import com.workfusion.odf2.core.task.generic.GenericTask;
-import com.workfusion.odf2.core.webharvest.TaskInput;
-import com.workfusion.odf2.core.webharvest.TaskOutput;
-import com.workfusion.odf2.core.webharvest.service.vault.SecretsVaultService;
+import com.workfusion.odf2.core.task.output.SingleResult;
+import com.workfusion.odf2.core.task.output.TaskRunnerOutput;
+import com.workfusion.odf2.service.ControlTowerServicesModule;
+import com.workfusion.odf2.service.vault.SecretsVaultService;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
@@ -17,21 +20,20 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 
 @BotTask
+@Requires(ControlTowerServicesModule.class)
 public class LocationIQWithJAXBTask implements GenericTask {
 
     private final TaskInput taskInput;
-    private final TaskOutput taskOutput;
     private final SecretsVaultService secretsVaultService;
 
     @Inject
     public LocationIQWithJAXBTask(Injector injector) {
         this.taskInput = injector.instance(TaskInput.class);
-        this.taskOutput = injector.instance(TaskOutput.class);
         this.secretsVaultService = injector.instance(SecretsVaultService.class);
     }
 
     @Override
-    public void run() {
+    public TaskRunnerOutput run() {
 
         //Get LocationIQ response
         GetResponseFromLocationIQ getResponseFromLocationIQ = new GetResponseFromLocationIQ(this.taskInput,
@@ -54,8 +56,9 @@ public class LocationIQWithJAXBTask implements GenericTask {
         Place firstPlaceFromResponse = searchResults.getPlaces().get(0);
 
         //Set output columns to be exported from the task
-        taskOutput.setColumn("name", firstPlaceFromResponse.getDisplayName());
-        taskOutput.setColumn("place_rank", firstPlaceFromResponse.getPlaceRank());
-        taskOutput.setColumn("type", firstPlaceFromResponse.getType());
+        return new SingleResult()
+                .withColumn("name", firstPlaceFromResponse.getDisplayName())
+                .withColumn("place_rank", firstPlaceFromResponse.getPlaceRank())
+                .withColumn("type", firstPlaceFromResponse.getType());
     }
 }
