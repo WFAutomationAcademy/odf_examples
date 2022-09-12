@@ -1,5 +1,11 @@
-<?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog ../dbchangelog-3.6.xsd">
+<?xml version="1.1" encoding="UTF-8" standalone="no"?><databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog ../dbchangelog-3.6.xsd">
+    <changeSet author="ODF2 archetype" id="aa_ex_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0001">
+        <createTable tableName="uc_aa_ex_steam_demo_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0_v1_0">
+            <column defaultValueComputed="NEWID()" name="record_id" type="NVARCHAR(36)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="game_name" type="NVARCHAR(256)"/>
+            <column name="release_date" type="NVARCHAR(36)"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

@@ -17,7 +17,6 @@
     </fileSets>
 
     <dependencySets>
-        <!-- Intake BCB -->
         <dependencySet>
             <outputDirectory>artifactory-dependency/bcb/com/workfusion/examples/aa-examples-bots/${project.version}</outputDirectory>
             <includes>
