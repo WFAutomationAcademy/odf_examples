@@ -1,0 +1,2 @@
+invoice_dto
+"{client:""Workfusion Inc."",invoice_date:""02/01/2022"",invoice_group:""Default"",payment_method:""Paypal"",total_discount:""10"",products:[{item:""Small Iron Watch"",quantity:""10"",price:""963.09"",description:""The best choice for everyone who wants a watch""},{item:""Iron Clock"",quantity:""7"",price:""950.05"",description:""Get it and you won't regret""},{item:""Ergonomic Paper Bench"",quantity:""5"",price:""938.24"",description:""More comfortable than anything else""}]}"

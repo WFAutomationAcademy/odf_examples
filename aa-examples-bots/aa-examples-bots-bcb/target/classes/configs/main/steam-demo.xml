@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://web-harvest.sourceforge.net/schema/1.0/config" scriptlang="groovy">
+
+    <robotics-flow-marker fleet="shared" />
+
+    <script><![CDATA[
+        import com.workfusion.odf2.core.Odf
+        import com.workfusion.examples.aa_examples_bots.steam.task.SteamDemoTask
+        import com.workfusion.examples.aa_examples_bots.steam.orm.GameRepositoryModule
+
+        def odf = Odf.builder()
+            .withInput(__taskInputMap.getWrappedObject())
+            .withBinding(binding)
+            .withModules(GameRepositoryModule)
+            .build()
+
+        result = odf.runTask(SteamDemoTask)
+
+        rows = result.getRows()
+        columns = result.getColumns()
+    ]]></script>
+
+    <case>
+        <if condition="${result.isPresent()}">
+            <export include-original-data="false">
+                <multi-column list="${rows}" split-results="${rows.size() > 1}">
+                    <loop item="columnName">
+                        <list>
+                            <script return="columns"/>
+                        </list>
+                        <body>
+                            <put-to-column-getter name="${columnName}" property="${columnName}"/>
+                        </body>
+                    </loop>
+                </multi-column>
+            </export>
+        </if>
+    </case>
+</config>
