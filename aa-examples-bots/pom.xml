@@ -22,13 +22,12 @@
         <usecase.code>aa_ex</usecase.code>
         <usecase.version>${project.version}</usecase.version>
 
-        <odf2.version>10.2.3.7</odf2.version>
-        <bundle-versions-maven-plugin.version>0.0.17</bundle-versions-maven-plugin.version>
-        <bundle-maven-plugin.version>10.2.4.3</bundle-maven-plugin.version>
+        <odf2.version>10.2.5.26</odf2.version>
+        <bundle-versions-maven-plugin.version>0.0.19</bundle-versions-maven-plugin.version>
+        <bundle-maven-plugin.version>10.2.5.19</bundle-maven-plugin.version>
 
-        <rpa.custom.elements.version>1.4</rpa.custom.elements.version>
-
-        <package.repository.id>bcb-repository</package.repository.id>
+        <bcb.repository.id>bcb-repository</bcb.repository.id>
+        <bcb.repository.url>http://localhost:18081/nexus/service/local/repositories/wf-machine-config-bundle/content/</bcb.repository.url>
         <package.repository.url>http://localhost:18081/nexus/service/local/repositories/releases/content/</package.repository.url>
     </properties>
 
@@ -38,6 +37,13 @@
             <url>https://repository.workfusion.com/content/repositories/plugins/</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>${bcb.repository.id}</id>
+            <url>${bcb.repository.url}</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -79,6 +85,17 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.10.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
                     <configuration>
@@ -87,8 +104,19 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.4</version>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0-M6</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.workfusion.odf</groupId>
+                    <artifactId>bundle-versions-maven-plugin</artifactId>
+                    <version>${bundle-versions-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.workfusion.odf</groupId>
+                    <artifactId>bundle-maven-plugin</artifactId>
+                    <version>${bundle-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
