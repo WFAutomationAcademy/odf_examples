@@ -1,0 +1,11 @@
+com\workfusion\examples\aa_examples_bots\notepad\NotepadAndClipboardTaskTest.class
+com\workfusion\examples\aa_examples_bots\scrapwebtable\ScrapTableWithRpaTaskTest.class
+com\workfusion\examples\aa_examples_bots\apiparsing\LocationIQWithJAXBTaskTest.class
+com\workfusion\examples\aa_examples_bots\google\GoogleDemoTaskTest.class
+com\workfusion\examples\aa_examples_bots\webapplication\InvoicePlaneNavigationTaskTest.class
+com\workfusion\examples\aa_examples_bots\AbstractTestWithLogger.class
+com\workfusion\examples\aa_examples_bots\apiparsing\LocationIQWithGroovyXmlParserTaskTest.class
+com\workfusion\examples\aa_examples_bots\scrapwebtable\ScrapTableWithoutRpaTaskTest.class
+com\workfusion\examples\aa_examples_bots\translatingwithapi\TranslateWithMSAzureTranslatorTaskTest.class
+META-INF\extensions.idx
+com\workfusion\examples\aa_examples_bots\steam\SteamDemoTaskTest.class
