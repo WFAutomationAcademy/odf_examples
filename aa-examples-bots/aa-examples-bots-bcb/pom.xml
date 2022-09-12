@@ -19,22 +19,15 @@
             <groupId>com.workfusion.odf2</groupId>
             <artifactId>odf2-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.workfusion.spa.bot</groupId>
-            <artifactId>bot-execution-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.workfusion.odf</groupId>
             <artifactId>bot-task-junit</artifactId>
-            <version>0.0.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.workfusion.odf2</groupId>
             <artifactId>odf2-junit</artifactId>
-            <version>10.2.3.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -52,40 +45,75 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Keep 'bot-execution-api' the latest as it brings dependency exclusions which might affect test dependencies -->
         <dependency>
-            <groupId>com.workfusion.automation.rpa</groupId>
-            <artifactId>rpa-custom-elements</artifactId>
-            <version>${rpa.custom.elements.version}</version>
+            <groupId>com.workfusion.spa.bot</groupId>
+            <artifactId>bot-execution-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlcleaner</groupId>
+            <artifactId>htmlcleaner</artifactId>
+            <version>2.24</version>
         </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>usecase.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>usecase.properties</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/resources/assembly.xml</descriptor>
+                    </descriptors>
+                    <archiverConfig>
+                        <compress>false</compress>
+                    </archiverConfig>
+                    <archive>
+                        <index>true</index>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                        <manifestEntries>
+                            <Plugin-Id>${project.groupId}:${project.artifactId}:${project.version}</Plugin-Id>
+                            <Plugin-Cache-Supported>true</Plugin-Cache-Supported>
+                        </manifestEntries>
+                    </archive>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>create-archive</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"/>
-                            </transformers>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
