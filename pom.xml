@@ -32,9 +32,14 @@
             <groupId>com.workfusion.automation.rpa</groupId>
             <artifactId>rpa-custom-elements</artifactId>
             <version>1.5</version>
+            <exclusions>
+                  <exclusion>
+                           <groupId>com.google.guava</groupId>
+                           <artifactId>guava</artifactId>
+                  </exclusion>
+            </exclusions>     
         </dependency>
     </dependencies>
-
     <repositories>
         <repository>
             <id>wf-dependencies</id>
